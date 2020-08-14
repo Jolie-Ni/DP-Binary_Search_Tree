@@ -30,3 +30,9 @@
 *.exe
 *.out
 *.app
+
+# Customs
+*.DS_Store
+*.txt
+
+cmake-build-debug
