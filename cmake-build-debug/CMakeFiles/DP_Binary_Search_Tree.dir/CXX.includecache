@@ -1,0 +1,28 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/nan/Desktop/projects/C++ projects/DP-Binary_Search_Tree/BST.h
+Tree_Node.h
+/Users/nan/Desktop/projects/C++ projects/DP-Binary_Search_Tree/Tree_Node.h
+vector
+-
+iostream
+-
+
+/Users/nan/Desktop/projects/C++ projects/DP-Binary_Search_Tree/Tree_Node.h
+string
+-
+
+/Users/nan/Desktop/projects/C++ projects/DP-Binary_Search_Tree/main.cpp
+iostream
+-
+Tree_Node.h
+/Users/nan/Desktop/projects/C++ projects/DP-Binary_Search_Tree/Tree_Node.h
+BST.h
+/Users/nan/Desktop/projects/C++ projects/DP-Binary_Search_Tree/BST.h
+
