@@ -13,6 +13,7 @@
 #include "Tree_Node.h"
 #include <vector>
 #include <iostream>
+#include <queue>
 using namespace std;
 
 template <class T>
@@ -200,7 +201,30 @@ void BST<T>::print_list(){
 template<class T>
 //print tree shape
 void BST<T>::print_tree(){
+    vector<T> tree;
+    queue<Tree_Node<T>*> nodes;
+    if(root == nullptr){
+        return;
+    }
+    else{
+        nodes.push(root);
+    }
+    while(!nodes.empty()){
+        Tree_Node<T>* ptr = nodes.front();
+        if(ptr->get_left() != nullptr){
+            nodes.push(ptr->get_left());
+        }
 
+        if(ptr->get_right() != nullptr){
+            nodes.push(ptr->get_right());
+        }
+        
+        tree.push_back(ptr->get_val());
+        nodes.pop();
+    }
+    for(typename vector<T>::iterator itr = tree.begin();itr != tree.end();itr++){
+        cout << *itr << endl;
+    }
 }
 
 template<class T>
