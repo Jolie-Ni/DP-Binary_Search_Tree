@@ -73,6 +73,16 @@ template<class T>
 Tree_Node<T>* clear_helper(Tree_Node<T>* root);
 
 template<class T>
+//delete node helper
+Tree_Node<T>* delete_node_helper(Tree_Node<T>* root);
+
+template<class T>
+Tree_Node<T>* rightMin(Tree_Node<T>* root);
+
+template<class T>
+Tree_Node<T>* leftMax(Tree_Node<T>* root);
+
+template<class T>
 BST<T>::BST(){
     root = nullptr;
 }
@@ -188,7 +198,9 @@ void BST<T>::insert_node(T val){
 template<class T>
 //delete leaf
 void BST<T>::delete_node(T val){
-
+    //find node to be deleted
+    Tree_Node<T>* target = new Tree_Node<T>(val);
+    root = delete_node_helper(root,target);
 }
 
 
@@ -254,6 +266,62 @@ Tree_Node<T>* clear_helper(Tree_Node<T>* root){
         delete root;
         return nullptr;
     }
+}
+
+
+template<class T>
+Tree_Node<T>* delete_node_helper(Tree_Node<T>* root,Tree_Node<T>* target){
+    if(root == nullptr){
+        return nullptr;
+    }
+    else{
+        root->set_left(delete_node_helper(root->get_left(),target));
+        root->set_right(delete_node_helper(root->get_right(),target));
+        //found to delete
+        if((*target) == (*root)){
+            if(root->get_left() == nullptr && root->get_right() == nullptr) {
+                //leaf
+                delete root;
+                return nullptr;
+            }
+            else if(root->get_left() == nullptr){
+                Tree_Node<T>* RM = rightMin(root);
+                T temp = root->get_val();
+                root->set_val(RM->get_val());
+                RM->set_val(temp);
+                return delete_node_helper(root,RM);
+            }
+            else{
+                Tree_Node<T>* LM = leftMax(root);
+                T temp = root->get_val();
+                root->set_val(LM->get_val());
+                LM->set_val(temp);
+                return delete_node_helper(root,LM);
+            }
+        }
+        else{
+            return root;
+        }
+    }
+
+}
+
+template<class T>
+Tree_Node<T>* rightMin(Tree_Node<T>* root){
+    Tree_Node<T>* rt = root->get_right();
+    while(root->get_left() != nullptr){
+        rt = rt->get_left();
+    }
+    return rt;
+}
+
+template<class T>
+Tree_Node<T>* leftMax(Tree_Node<T>* root){
+    Tree_Node<T>* rt = root->get_left();
+    while(root->get_right() != nullptr){
+        rt = rt->get_right();
+    }
+    return rt;
 }
 
 //destructor

@@ -100,7 +100,7 @@ public:
         return (val == T2.get_val());
     }
 
-    bool operator == (Tree_Node<string> & T2){
+    bool operator == (Tree_Node<string> &T2){
         if(val.compare(T2.get_val()) == 0){
             return true;
         }
