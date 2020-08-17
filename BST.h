@@ -59,12 +59,18 @@ public:
     //balance tree
     void balance_tree();
 
-    //copy helper
-    Tree_Node<T>* cpy_helper(Tree_Node<T>* root);
 
     //destructor
     ~BST<T>();
 };
+
+//copy helper
+template<class T>
+Tree_Node<T>* cpy_helper(Tree_Node<T>* root);
+
+template<class T>
+//clear helper
+Tree_Node<T>* clear_helper(Tree_Node<T>* root);
 
 template<class T>
 BST<T>::BST(){
@@ -86,7 +92,7 @@ BST<T>::BST(BST<T> &Tree){
 }
 
 template<class T>
-Tree_Node<T>* BST<T>::cpy_helper(Tree_Node<T>* root){
+Tree_Node<T>* cpy_helper(Tree_Node<T>* root){
     if(root == nullptr){
         return nullptr;
     }
@@ -189,7 +195,10 @@ void BST<T>::delete_node(T val){
 template<class T>
 //clear all
 void BST<T>::clear_all(){
-
+    root = clear_helper(root);
+    if(root == nullptr){
+       cout << "root is null" << endl;
+    }
 }
 
 template<class T>
@@ -204,6 +213,7 @@ void BST<T>::print_tree(){
     vector<T> tree;
     queue<Tree_Node<T>*> nodes;
     if(root == nullptr){
+        cout << "tree is empty" << endl;
         return;
     }
     else{
@@ -231,6 +241,19 @@ template<class T>
 //balance tree
 void BST<T>::balance_tree(){
 
+}
+
+template<class T>
+Tree_Node<T>* clear_helper(Tree_Node<T>* root){
+    if(root == nullptr){
+        return nullptr;
+    }
+    else{
+        root->set_left(clear_helper(root->get_left()));
+        root->set_right(clear_helper(root->get_right()));
+        delete root;
+        return nullptr;
+    }
 }
 
 //destructor
