@@ -309,7 +309,7 @@ Tree_Node<T>* delete_node_helper(Tree_Node<T>* root,Tree_Node<T>* target){
 template<class T>
 Tree_Node<T>* rightMin(Tree_Node<T>* root){
     Tree_Node<T>* rt = root->get_right();
-    while(root->get_left() != nullptr){
+    while(rt->get_left() != nullptr){
         rt = rt->get_left();
     }
     return rt;
@@ -318,7 +318,7 @@ Tree_Node<T>* rightMin(Tree_Node<T>* root){
 template<class T>
 Tree_Node<T>* leftMax(Tree_Node<T>* root){
     Tree_Node<T>* rt = root->get_left();
-    while(root->get_right() != nullptr){
+    while(rt->get_right() != nullptr){
         rt = rt->get_right();
     }
     return rt;
