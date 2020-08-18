@@ -5,14 +5,14 @@
 int main() {
     vector<int> my_list{5,6,10,2,7};
     BST<int> T1(my_list);
-    T1.print_tree();
-    T1.delete_node(2);
-    T1.delete_node(6);
-    T1.delete_node(7);
-    T1.delete_node(10);
-    T1.delete_node(5);
-
+    T1.print_list();
+    T1.valid_BST();
+    T1.swap_node(6,10);
     cout<<"new tree" << endl;
-    T1.print_tree();
+    T1.print_list();
+    T1.valid_BST();
+    T1.recover_BST();
+    T1.valid_BST();
+    T1.print_list();
     return 0;
 }

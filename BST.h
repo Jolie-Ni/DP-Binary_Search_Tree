@@ -59,6 +59,12 @@ public:
     //balance tree
     void balance_tree();
 
+    void swap_node(T val1,T val2);
+
+    void valid_BST();
+
+    void recover_BST();
+
 
     //destructor
     ~BST<T>();
@@ -81,6 +87,21 @@ Tree_Node<T>* rightMin(Tree_Node<T>* root);
 
 template<class T>
 Tree_Node<T>* leftMax(Tree_Node<T>* root);
+
+template<class T>
+void print_helper(Tree_Node<T>* root,vector<T> &list);
+
+template<class T>
+Tree_Node<T>* find(Tree_Node<T>* root,T val);
+
+template<class T>
+bool valid_helper(Tree_Node<T>* root);
+
+template<class T>
+void find_helper(Tree_Node<T>* root,T val,Tree_Node<T>* &ptr);
+
+
+
 
 template<class T>
 BST<T>::BST(){
@@ -216,7 +237,18 @@ void BST<T>::clear_all(){
 template<class T>
 //print in-order
 void BST<T>::print_list(){
-
+    if(root == nullptr){
+        cout << "tree is empty" << endl;
+    }
+    else{
+        vector<T> list;
+        print_helper(root,list);
+        for(typename vector<T>::iterator itr = list.begin();itr != list.end();itr++){
+            cout << *itr;
+            cout << ",";
+        }
+        cout << endl;
+    }
 }
 
 template<class T>
@@ -254,6 +286,8 @@ template<class T>
 void BST<T>::balance_tree(){
 
 }
+
+
 
 template<class T>
 Tree_Node<T>* clear_helper(Tree_Node<T>* root){
@@ -322,6 +356,135 @@ Tree_Node<T>* leftMax(Tree_Node<T>* root){
         rt = rt->get_right();
     }
     return rt;
+}
+
+template<class T>
+void print_helper(Tree_Node<T>* root,vector<T> &list){
+    if(root == nullptr){
+        return;
+    }
+    else{
+        print_helper(root->get_left(),list);
+        list.push_back(root->get_val());
+        print_helper(root->get_right(),list);
+    }
+}
+
+
+
+template<class T>
+void BST<T>::swap_node(T val1,T val2){
+    //locate val1
+    Tree_Node<T>* ptr1;
+    Tree_Node<T>* ptr2;
+    find_helper(root,val1,ptr1);
+    find_helper(root,val2,ptr2);
+    if(ptr1 == nullptr || ptr2 == nullptr){
+        cout << "one of value not found" << endl;
+        return;
+    }
+    T temp = ptr1->get_val();
+    ptr1->set_val(ptr2->get_val());
+    ptr2->set_val(temp);
+}
+
+template<class T>
+void BST<T>::valid_BST(){
+    if(valid_helper(root) == true){
+        cout << "it is a BST" << endl;
+    }
+    else{
+        cout << "it is NOT a BST " << endl;
+    }
+}
+
+template<class T>
+void BST<T>::recover_BST(){
+    vector<T> swap_list;
+    print_helper(root,swap_list);
+    vector<T> sorted_list = swap_list;
+    for(typename vector<T>::iterator itr = sorted_list.begin();itr!=sorted_list.end();itr++){
+        cout<< (*itr);
+        cout<< ",";
+    }
+    cout << endl;
+    sort(sorted_list.begin(),sorted_list.end());
+    for(typename vector<T>::iterator itr = sorted_list.begin();itr!=sorted_list.end();itr++){
+        cout<< (*itr);
+        cout<< ",";
+    }
+    cout << endl;
+
+    vector<T> two;
+    typename vector<T>::iterator itr2 = swap_list.begin();
+    for(typename vector<T>::iterator itr = sorted_list.begin();itr !=sorted_list.end();itr++){
+        if((*itr) != *(itr2)){
+            two.push_back(*itr);
+        }
+        itr2++;
+    }
+
+    for(typename vector<T>::iterator itr = two.begin();itr!= two.end();itr++){
+        cout<< (*itr);
+        cout<< ",";
+    }
+    cout << endl;
+
+
+    //find v1,v2 and swap
+    this->swap_node((*two.begin()),*(two.begin()+1));
+}
+
+template<class T>
+Tree_Node<T>* find(Tree_Node<T>* root,T val){
+
+    while(root != nullptr){
+        if(root->get_val() == val){
+            return root;
+        }
+        else if(val < root->get_val()){
+            root = root->get_left();
+        }
+        else{
+            root = root->get_right();
+        }
+    }
+    return nullptr;
+}
+
+template<class T>
+void find_helper(Tree_Node<T>* root,T val,Tree_Node<T>* &ptr){
+    if(root == nullptr){
+        return;
+    }
+    else{
+        find_helper(root->get_left(),val,ptr);
+        if(val == root->get_val()){
+            ptr = root;
+        }
+        find_helper(root->get_right(),val,ptr);
+    }
+}
+
+template<class T>
+bool valid_helper(Tree_Node<T>* root){
+    if(root == nullptr){
+        return true;
+    }
+    else if(root->get_left() == nullptr && root->get_right() == nullptr){
+        return true;
+    }
+    else if(root->get_left() == nullptr){
+        return valid_helper(root->get_right()) && (root->get_val() < root->get_right()->get_val());
+    }
+    else if(root->get_right() == nullptr){
+        return valid_helper(root->get_left()) && (root->get_val() > root->get_left()->get_val());
+    }
+    else{
+        bool b1 = valid_helper(root->get_left());
+        bool b2 = valid_helper(root->get_right());
+        return b1&&b2&&(root->get_val() > root->get_left()->get_val())&&(root->get_val() < root->get_right()->get_val());
+    }
 }
 
 //destructor
